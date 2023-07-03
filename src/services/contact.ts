@@ -12,10 +12,10 @@ const identifyContact = async (email?: string, phoneNumber?: string) => {
 };
 
 /**
- * Funcation that will return array of all contacts including new record created
- * @param contacts 
- * @param email 
- * @param phoneNumber 
+ * Function that will return array of all contacts including new record created
+ * @param contacts
+ * @param email
+ * @param phoneNumber
  * @returns Contact[]
  */
 
@@ -33,16 +33,16 @@ async function contactFound(
     contactList = await foundMultipleRecord(contacts, email, phoneNumber);
   }
 
-  if(contacts.length === 0){
+  if (contacts.length === 0) {
     const contact = await Contact.create({
       email,
       phoneNumber,
       linkPrecedence: LinkType.Primary,
-    }); 
+    });
     contactList = [contact];
   }
 
-  return contactList;
+  return transformContact(contactList);
 }
 
 /**
@@ -77,7 +77,7 @@ async function foundOneRecord(
 }
 
 /**
- *
+ * Function to return list of contacts when there are multiple user accounts
  * @param contacts
  * @param email
  * @param phoneNumber
@@ -93,7 +93,6 @@ async function foundMultipleRecord(
 
     let promises: Promise<Contact>[] = [];
 
-    // const transaction =
     contacts.forEach(async (contact, index) => {
       if (index === 0 && contact.linkPrecedence === LinkType.Secondary) {
         contact.linkPrecedence = LinkType.Primary;
@@ -124,6 +123,30 @@ async function foundMultipleRecord(
   } catch (error) {
     throw error;
   }
+}
+
+function transformContact(contacts: Contact[]) {
+  const emails: string[] = [];
+  const phoneNumbers: string[] = [];
+  const secondaryContactIds: number[] = [];
+  const primaryContatctId = contacts[0].id;
+
+  contacts.forEach((contact, index) => {
+    if (contact.email && !emails.includes(contact.email))
+      emails.push(contact.email);
+    if (contact.phoneNumber && !phoneNumbers.includes(contact.phoneNumber))
+      phoneNumbers.push(contact.phoneNumber);
+    if (index > 0) secondaryContactIds.push(contact.id);
+  });
+
+  return {
+    contact: {
+      primaryContatctId,
+      emails,
+      phoneNumbers,
+      secondaryContactIds,
+    },
+  };
 }
 
 export default {
