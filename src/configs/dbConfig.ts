@@ -24,7 +24,8 @@ export default {
   database,
   host: config.dbHostname,
   dialect: "mysql",
-  logging: false
+  logging: false,
+  seederStorage: "sequelize",
 };
 
 //IMP: This export is necessary for migration and seeding to work, sequelize-cli doesn't understand TS default exports properly
@@ -35,4 +36,5 @@ module.exports = {
   host: config.dbHostname,
   dialect: "mysql",
   logging: false,
+  seederStorage: "sequelize",
 };
