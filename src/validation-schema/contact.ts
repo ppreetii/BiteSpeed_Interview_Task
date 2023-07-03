@@ -3,8 +3,8 @@ import Joi from "joi";
 export const identifyContactSchema: Joi.Schema = Joi.object()
   .keys({
     email: Joi.string().email(),
-    phone: Joi.string(),
+    phoneNumber: Joi.string(),
   })
-  .or("email", "phone")
+  .or("email", "phoneNumber")
   .not()
   .empty();

@@ -1,8 +1,16 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes, Op } from "sequelize";
 
 export enum LinkType {
   Primary = "primary",
   Secondary = "secondary",
+}
+
+interface ContactCreationAttrs {
+  phoneNumber?: string;
+  email?: string;
+  linkedIn?: number;
+  linkPrecedence: LinkType;
+  deletedAt?: Date;
 }
 
 interface ContactAttrs {
@@ -14,6 +22,11 @@ interface ContactAttrs {
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
+}
+
+interface identifyContactFilter {
+  email?: string;
+  phoneNumber?: string;
 }
 
 class Contact extends Model implements ContactAttrs {
@@ -62,35 +75,23 @@ class Contact extends Model implements ContactAttrs {
   static associateModel(): void {
     // add associations if any
   }
-}
 
-export const identifyContact = async function(email?: string, phone?: string){
+  static async identifyContact(email?: string, phoneNumber?: string): Promise<Contact[]> {
+    const filterOptions : identifyContactFilter = {};
+    if(email)filterOptions.email = email;
+    if(phoneNumber)filterOptions.phoneNumber = phoneNumber;
 
-  let promises = [];
-  if(email){
-    promises.push(
-      Contact.findAll({
-        where : {
-          email
+    const contacts = await Contact.findAll({
+      where: {
+        [Op.or]:{
+          ...filterOptions
         }
-       })
-    )
+      },
+      order: ["createdAt"]
+    });
+
+    return contacts;
   }
-  if(phone){
-    promises.push(
-      Contact.findAll({
-        where : {
-          phoneNumber: phone
-        }
-       })
-    )
-  }
-
-  const result = await Promise.all(promises);
-
-  
-
 }
-
 
 export default Contact;
