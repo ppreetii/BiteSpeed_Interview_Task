@@ -1,0 +1,159 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Identity Reconciliation",
+    "description": "An API that allows find users with multiple accounts through email/phone",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Preeti Gupta",
+      "email": "test@test.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1/",
+      "description": "Main Development server"
+    }
+  ],
+  "paths": {
+    "/identify": {
+      "post": {
+        "summary": "Find Contact Information",
+        "tags": ["Identity"],
+        "x-amazon-apigateway-auth": {
+          "type": "NONE"
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A json object of Contact details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "contact": {
+                      "primaryContatctId": {
+                        "type": "integer"
+                      },
+                      "emails": {
+                        "type": "array",
+                        "items": "string"
+                      },
+                      "phoneNumbers": {
+                        "type": "array",
+                        "items": "string"
+                      },
+                      "secondaryContactIds": {
+                        "type": "array",
+                        "items": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "contact": {
+                    "primaryContatctId": 2,
+                    "emails": ["aac@gmail.com", "def@gmail.com"],
+                    "phoneNumbers": ["123451"],
+                    "secondaryContactIds": [20, 6, 21]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A json object of Contact details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "phoneNumber": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "errors": [
+                    {
+                      "message": "\"phoneNumber\" must be a string"
+                    },
+                    {
+                      "message": "\"eamil\" is not allowed"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Contact": {
+          "description": "A detailed schema of Contact",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "phoneNumber": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "linkedIn": {
+              "type": "integer"
+            },
+            "linkPrecedence": {
+              "type": "string",
+              "enum" : ["primary", "secondary"]
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "updatedAt": {
+              "type": "string"
+            },
+            "deletedAt": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "api_key": {
+          "type": "apiKey",
+          "name": "Authorization",
+          "in": "header"
+        }
+      }
+    }
+  }
+}
