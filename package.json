@@ -7,7 +7,8 @@
     "clean": "del-cli ./build/*",
     "build": "npm run clean && tsc",
     "start": "npm run build && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && ts-node-dev src/index.ts",
-    "server": "ts-node-dev src/index.ts"
+    "server": "ts-node-dev src/index.ts",
+    "test": "cross-env NODE_ENV=test jest --watchAll --no-cache"
   },
   "keywords": [],
   "author": "",
@@ -26,8 +27,20 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.2",
     "@types/node": "^20.3.3",
+    "@types/supertest": "^2.0.12",
     "cross-env": "^7.0.3",
-    "del-cli": "^5.0.0"
+    "del-cli": "^5.0.0",
+    "jest": "^29.6.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   }
 }
