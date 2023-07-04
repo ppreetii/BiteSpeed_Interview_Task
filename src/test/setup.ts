@@ -21,6 +21,7 @@ beforeEach(async () => {
 afterAll(async () => {
   try {
     if (SequelizeConnection.getInstance()) {
+      await db.sequelize.truncate({ cascade: true, restartIdentity: true });
       await SequelizeConnection.close();
     }
   } catch (error) {

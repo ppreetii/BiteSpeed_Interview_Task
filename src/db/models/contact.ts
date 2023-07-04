@@ -5,14 +5,6 @@ export enum LinkType {
   Secondary = "secondary",
 }
 
-interface ContactCreationAttrs {
-  phoneNumber?: string;
-  email?: string;
-  linkedIn?: number;
-  linkPrecedence: LinkType;
-  deletedAt?: Date;
-}
-
 interface ContactAttrs {
   id: number;
   phoneNumber?: string;
