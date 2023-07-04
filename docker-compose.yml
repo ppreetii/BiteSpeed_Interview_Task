@@ -1,0 +1,35 @@
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqlcontainer
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=${DATABASE_NAME}_dev
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    depends_on:
+      - mysqldb
+    build: .
+    image: preeti097/bitespeed
+    container_name: bitespeedcontainer
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $PORT:$PORT
+    environment:
+      - PORT=$PORT
+      - DATABASE_NAME=$DATABASE_NAME
+      - DB_USERNAME=$DB_USERNAME
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_HOSTNAME=mysqldb
+      - DIALECT=$DIALECT
+      - NODE_ENV=$NODE_ENV
+    stdin_open: true
+    tty: true
+volumes:
+  db:

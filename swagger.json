@@ -16,7 +16,7 @@
     }
   ],
   "paths": {
-    "/identify": {
+    "/contacts/identify": {
       "post": {
         "summary": "Find Contact Information",
         "tags": ["Identity"],
