@@ -1,5 +1,6 @@
 # BiteSpeed_Interview_Task
 ## Problem Statement [Link](https://github.com/ppreetii/BiteSpeed_Interview_Task/wiki)
+## Resume [Link](https://drive.google.com/file/d/1ywAwuzVSqZawclUTI-8a0Vo_rVFufbiR/view?usp=drive_link)
 
 ## General Instructions :
 
