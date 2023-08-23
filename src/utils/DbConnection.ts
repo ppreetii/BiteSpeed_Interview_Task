@@ -14,7 +14,13 @@ class SequelizeConnection {
         {
           host: vars.host,
           dialect: vars.dialect as Dialect,
-          logging: vars.logging
+          logging: vars.logging,
+          ssl: true, // Enable SSL
+          dialectOptions: {
+            ssl: {
+              require: true, // Require SSL
+            },
+          },
         }
       );
     }
