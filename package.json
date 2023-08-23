@@ -8,7 +8,8 @@
     "build": "npm run clean && tsc",
     "start": "npm run build && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && ts-node-dev src/index.ts",
     "server": "ts-node-dev src/index.ts",
-    "test": "cross-env NODE_ENV=test jest --watchAll --no-cache"
+    "test": "cross-env NODE_ENV=test jest --watchAll --no-cache",
+    "start:server": "npm run build && node build/src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "joi": "^17.9.2",
+    "mysql2": "^3.4.3",
     "pg": "^8.11.3",
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1",
