@@ -23,7 +23,7 @@ export default {
   password: config.dbPassword,
   database,
   host: config.dbHostname,
-  dialect: "mysql",
+  dialect: config.dialect,
   logging: false,
   seederStorage: "sequelize",
 };
@@ -34,7 +34,7 @@ module.exports = {
   password: config.dbPassword,
   database,
   host: config.dbHostname,
-  dialect: "mysql",
+  dialect: config.dialect,
   logging: false,
   seederStorage: "sequelize",
 };

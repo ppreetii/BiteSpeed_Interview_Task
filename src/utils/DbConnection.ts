@@ -29,6 +29,7 @@ class SequelizeConnection {
       console.log("Database connection authenticated successfully");
       return sequelize;
     } catch (err) {
+      console.log(err)
       console.log("Error while creation connection to database");
       return sequelize;
     }
